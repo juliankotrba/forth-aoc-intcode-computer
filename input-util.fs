@@ -5,5 +5,8 @@ create intcode 100 cells allot \ TODO: Create array in function read-intcode
         dup  i - rot intcode rot cells + !
      LOOP drop intcode ;
 
+: read ( addr i -- n)
+     2dup cells + @ ; 
+
 : test 
      4 3 2 1 0 5 read-intcode ;
