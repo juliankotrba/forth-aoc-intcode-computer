@@ -1,9 +1,9 @@
 create intcode 100 cells allot \ TODO: Create array in function read-intcode
 
 : read-intcode ( x1 x2 x3 xn n -- addr )
-       dup 0 ?DO
-        dup  i - 1 - rot intcode rot cells + !
-     LOOP drop intcode ;
+     dup 0 ?DO
+        dup i - 1 - rot intcode rot cells + !
+     LOOP intcode ;
 
 : read ( addr i -- n)
      2dup cells + @ ; 
@@ -14,3 +14,8 @@ create intcode 100 cells allot \ TODO: Create array in function read-intcode
 
 : test 
      1 2 99 1 2 5 6 7 99 9 read-intcode ;
+
+: print ( count addr i -- )
+     swap rot dup 2swap rot 0 ?DO
+          i read . drop
+     LOOP swap ;
