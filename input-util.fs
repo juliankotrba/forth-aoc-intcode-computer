@@ -8,5 +8,9 @@ create intcode 100 cells allot \ TODO: Create array in function read-intcode
 : read ( addr i -- n)
      2dup cells + @ ; 
 
+: write ( addr n1 n2 -- )
+     { a v index }
+     v a index CELLS + ! ;
+
 : test 
      1 2 99 1 2 5 6 7 99 9 read-intcode ;
