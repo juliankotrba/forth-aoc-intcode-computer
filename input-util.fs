@@ -9,4 +9,4 @@ create intcode 100 cells allot \ TODO: Create array in function read-intcode
      2dup cells + @ ; 
 
 : test 
-     1 2 99 1 99 5 read-intcode ;
+     1 2 99 1 2 5 6 7 99 9 read-intcode ;
