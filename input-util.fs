@@ -16,7 +16,7 @@ create intcode 160 cells allot \ TODO: Create array in function read-intcode
 : print ( count addr i -- )
      swap rot dup 2swap rot 0 ?DO
           i 2dup read . drop
-     LOOP swap ;
+     LOOP swap s\" \n\n" type ;
 
 : print-first ( count addr i -- )
      intcode 0 read . ;
