@@ -16,3 +16,7 @@
 : testB 1101 2 2 0 99 5 read-intcode run ;
 : testC 0001 0 0 0 99 5 read-intcode run ;
 : testD test-input-long5 run ;
+
+\ https://www.reddit.com/r/adventofcode/comments/e6rvle/2019_day_5_quine_in_intcode/
+: quine1 4 0 1005 1 19 104 0 104 1005 104 1 104 19 104 104 101 5 1 1 101 1 1 1 1007 1 31 5 1005 5 0 99 31 read-intcode run ;
+: quine2 101 -5 5 5 4 5 101 6 5 5 1007 5 23 15 1105 1 0 99 18 read-intcode run ;
