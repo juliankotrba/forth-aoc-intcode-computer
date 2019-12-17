@@ -63,31 +63,31 @@ require input-util.fs
 : less ( count addr index opcode -- count addr index+4 )
     3dup read-parameters swap
     < if
-        drop
-        3 + read
-        intcode swap
-        1 swap write
+        1 >r
     else 
-        drop
-        3 + read
-        intcode swap
-        0 swap write
-    endif    
+        0 >r
+    endif
+    
+    drop
+    3 + read
+    intcode swap
+    r> swap write
+
     drop 4 + ;
 
 : equals ( count addr index opcode -- count addr index+4 )
     3dup read-parameters swap
     = if
-        drop
-        3 + read
-        intcode swap
-        1 swap write
+        1 >r
     else 
-        drop
-        3 + read
-        intcode swap
-        0 swap write
-    endif    
+        0 >r
+    endif
+
+    drop
+    3 + read
+    intcode swap
+    r> swap write
+
     drop 4 + ;    
 
 : input ( count addr index opcode -- count addr index+2 )
