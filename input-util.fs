@@ -20,3 +20,8 @@ create intcode 160 cells allot \ TODO: Create array in function read-intcode
 
 : print-first ( count addr i -- )
      intcode 0 read . ;
+
+: std-input ( -- n f ) 
+     pad 40 accept   
+     pad swap s>number? 
+     >r d>s r> drop ;
