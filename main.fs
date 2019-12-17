@@ -25,13 +25,11 @@ require input-util.fs
     begin
         print
         2dup read 99 <> while
-            2dup read 1 = if  
-               add
-            else
-                2dup read 2 = if  
-                    mul
-                else
-                    1 + \ invalid case, just read next value
-                endif
-            endif 
+
+            2dup read 
+            CASE
+                1 OF add ENDOF
+                2 OF mul ENDOF
+            ENDCASE    
+
     repeat drop drop drop ;
