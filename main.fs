@@ -7,14 +7,16 @@ require input-util.fs
     + read -rot drop drop ;
 
 : read-parameters ( addr index opcode -- p1 p2 )
-    100 / 
+    100 /
     3dup 3dup
+
     10 mod
     case
         0 of 2dup 1 read-parameter-position endof
         1 of 2dup 1 read-parameter-immediate endof
     endcase
     >r
+
     10 / 10 mod
     case
         0 of 2dup 2 read-parameter-position endof
@@ -28,21 +30,21 @@ require input-util.fs
     3 + read intcode
     -rot write ;
 
-: add ( count addr index opcode -- )
-    3dup read-parameters
-    + \ result
-    swap drop \ TODO: Read C
-    write-result 
+: add ( count addr index opcode -- count addr index )
+    read-parameters
+    + >r \ result
+    3dup drop \ TODO: Read A
+    r> write-result 
     drop 4 + ;
 
-: mul ( count addr index opcode -- )
-    3dup read-parameters
-    * \ result
-    swap drop \ TODO: Read C
-    write-result
+: mul ( count addr index opcode -- count addr index )
+    read-parameters
+    * >r \ result
+    3dup drop \ TODO: Read A
+    r> write-result
     drop 4 + ;
 
-: non-zero ( count addr index opcode -- )
+: non-zero ( count addr index opcode -- count addr index )
     read-parameters  
     0 <> if
         -rot drop drop
@@ -50,7 +52,7 @@ require input-util.fs
        drop drop 3 +
     endif ;
 
-: is-zero ( count addr index opcode -- )
+: is-zero ( count addr index opcode -- count addr index )
     read-parameters
     0 = if
         -rot drop drop
@@ -58,7 +60,7 @@ require input-util.fs
        drop drop 3 +
     endif ;
 
-: less 
+: less ( count addr index opcode -- count addr index+4 )
     3dup read-parameters swap
     < if
         drop
@@ -73,7 +75,7 @@ require input-util.fs
     endif    
     drop 4 + ;
 
-: equals 
+: equals ( count addr index opcode -- count addr index+4 )
     3dup read-parameters swap
     = if
         drop
@@ -88,7 +90,7 @@ require input-util.fs
     endif    
     drop 4 + ;    
 
-: input ( count addr index opcode -- )
+: input ( count addr index opcode -- count addr index+2 )
     drop 
     2dup
     1 + read intcode swap
@@ -98,7 +100,7 @@ require input-util.fs
     swap write
     2 + ;
 
-: output ( count addr index opcode -- )
+: output ( count addr index opcode -- count addr index+2 )
     100 / 
     3dup
     10 mod
@@ -109,7 +111,7 @@ require input-util.fs
     s\" \n" type
     drop 2 + ;
 
-: read-opcode
+: read-opcode ( count addr index -- count addr index opcode )
     2dup read dup 100 mod
     case
         1 of add endof
@@ -126,7 +128,6 @@ require input-util.fs
     s\" \n\n" type
     0
     begin
-        \ print
         2dup read 99 <> while
             read-opcode
 
