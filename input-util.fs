@@ -1,4 +1,4 @@
-create intcode 160 cells allot \ TODO: Create array in function read-intcode
+create intcode 1000 cells allot \ TODO: Create array in function read-intcode
 
 : read-intcode ( x1 x2 x3 xn n -- addr )
      dup 0 ?DO
@@ -25,3 +25,11 @@ create intcode 160 cells allot \ TODO: Create array in function read-intcode
      pad 40 accept   
      pad swap s>number? 
      >r d>s r> drop ;
+
+: 3dup 
+     dup 2over rot ;
+
+: debug 
+    s\" ----\n" type
+    .s
+    s\" ----\n" type ;
