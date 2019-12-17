@@ -6,9 +6,9 @@ require input-util.fs
 : read-parameter-immediate ( index -- p )
     + read -rot drop drop ;
 
-: read-parameters ( addr index opcode -- addr index opcode p1 p2 )
+: read-parameters ( addr index opcode -- p1 p2 )
     100 / 
-    3dup 3dup 3dup
+    3dup 3dup
     10 mod
     case
         0 of 2dup 1 read-parameter-position endof
@@ -29,18 +29,64 @@ require input-util.fs
     -rot write ;
 
 : add ( count addr index opcode -- )
-    read-parameters
+    3dup read-parameters
     + \ result
     swap drop \ TODO: Read C
     write-result 
     drop 4 + ;
 
 : mul ( count addr index opcode -- )
-    read-parameters
+    3dup read-parameters
     * \ result
     swap drop \ TODO: Read C
     write-result
     drop 4 + ;
+
+: non-zero ( count addr index opcode -- )
+    read-parameters  
+    0 <> if
+        -rot drop drop
+    else
+       drop drop 3 +
+    endif ;
+
+: is-zero ( count addr index opcode -- )
+    read-parameters
+    0 = if
+        -rot drop drop
+    else 
+       drop drop 3 +
+    endif ;
+
+: less 
+    3dup read-parameters swap
+    < if
+        drop
+        3 + read
+        intcode swap
+        1 swap write
+    else 
+        drop
+        3 + read
+        intcode swap
+        0 swap write
+    endif    
+    drop 4 + ;
+
+: equals 
+    3dup read-parameters swap
+    = if
+        drop
+        3 + read
+        intcode swap
+        1 swap write
+    else 
+        drop
+        3 + read
+        intcode swap
+        0 swap write
+    endif    
+    drop 4 + ;    
 
 : input ( count addr index opcode -- )
     drop 
@@ -70,6 +116,10 @@ require input-util.fs
         2 of mul endof
         3 of input endof
         4 of output endof
+        5 of non-zero endof
+        6 of is-zero endof
+        7 of less endof
+        8 of equals endof
     endcase ;
 
 : run ( count addr -- )

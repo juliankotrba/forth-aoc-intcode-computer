@@ -16,4 +16,3 @@
 : testB 1101 2 2 0 99 5 read-intcode run ;
 : testC 0001 0 0 0 99 5 read-intcode run ;
 : testD test-input-long5 run ;
-
